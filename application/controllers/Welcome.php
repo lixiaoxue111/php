@@ -61,13 +61,30 @@ class Welcome extends CI_Controller {
             //redirect('welcome/regist');//重定向，不能传参
         }else{
             $this -> load -> model('user_model');
-            $this -> user_model -> save($username,$password);
-            echo 'save ok';
+            $rows = $this -> user_model -> save($username,$password);
+            //echo 'save ok';
+            if( $rows >0 ){
+                echo 'save ok';
+            }
         }
 
         // 连接数据库
 
         // 加载view
 
+    }
+
+    //登录
+    public function check_login(){
+	    $username = $this -> input ->post('username');
+	    $password = $this -> input ->post('password');
+
+	    $this -> load ->model('user_model');
+	   $row = $this -> user_model -> get_by_name_pwd($username,$password);
+	    if($row){
+	        echo 'login success';
+        }else{
+	        echo 'login fail';
+        }
     }
 }
